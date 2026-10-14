@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171a2b">
+  <title>CartShare — Shopping, together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="CartShare home"><span class="brand-mark">c</span><span>cart<span class="brand-light">share</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span> Overview</button>
+      <button class="nav-link" data-view="room"><span class="nav-icon">▦</span> Shared cart</button>
+      <button class="nav-link" data-view="activity"><span class="nav-icon">↗</span> Activity</button>
+      <div class="sidebar-bottom">
+        <div class="help-card"><span class="help-spark">✦</span><strong>Better together.</strong><p>Make group shopping feel effortless.</p></div>
+        <div class="profile-mini"><div class="avatar avatar-purple" id="userAvatar">S</div><div><strong id="sideUserName">Satyam</strong><small>Personal workspace</small></div><span class="more">···</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">c</span> cartshare</div>
+        <div class="breadcrumbs">Workspace <span>/</span> <strong id="crumbText">Overview</strong></div>
+        <div class="top-actions"><span class="status-dot"></span><span class="online-label">All changes saved</span><button class="icon-button" id="profileButton" title="Edit your name">☻</button></div>
+      </header>
+
+      <section class="view active-view" id="homeView">
+        <div class="welcome-row">
+          <div><p class="eyebrow">YOUR GROUP SHOPPING SPACE</p><h1>Shopping works<br class="desktop-break"> better <span>together.</span></h1><p class="intro">Plan one order, keep everyone in the loop, and split the list without the group chat chaos.</p></div>
+          <div class="hero-art" aria-hidden="true"><div class="art-circle"></div><div class="art-bag">🛍️</div><span class="art-chip chip-one">+ 3 items</span><span class="art-chip chip-two">✓ synced</span><span class="art-star">✳</span></div>
+        </div>
+
+        <div class="section-heading"><div><h2>Let's get the group together</h2><p>Start a new cart or hop into one that's already going.</p></div></div>
+        <div class="room-actions">
+          <article class="action-card create-card"><div class="action-icon create-icon">＋</div><div><h3>Create a room</h3><p>Start a shared list and invite everyone with a simple code.</p></div><form id="createRoomForm" class="inline-form"><label for="newRoomName">Room name</label><input id="newRoomName" maxlength="42" placeholder="e.g. Hostel groceries" required><button class="primary-button" type="submit">Create room <span>→</span></button></form></article>
+          <article class="action-card join-card"><div class="action-icon join-icon">↗</div><div><h3>Join a room</h3><p>Already have a code? Enter it below to see the shared cart.</p></div><form id="joinRoomForm" class="inline-form"><label for="roomCodeInput">Room code</label><div class="join-input-row"><input id="roomCodeInput" maxlength="8" placeholder="e.g. A7K2P9" required><button class="primary-button" type="submit">Join <span>→</span></button></div></form></article>
+        </div>
+
+        <div class="section-heading recent-heading"><div><h2>Your rooms</h2><p>Pick up where your group left off.</p></div><span class="muted-count" id="roomCount">0 rooms</span></div>
+        <div class="rooms-grid" id="roomsGrid"><div class="empty-state"><div class="empty-emoji">🛒</div><strong>No rooms just yet</strong><p>Create a room for your next shared shop.</p></div></div>
+        <footer class="page-footer">Made for lists, roommates, and one less group-chat headache. <span>CartShare © 2026</span></footer>
+      </section>
+
+      <section class="view" id="roomView">
+        <div class="room-title-row"><div><button class="back-link" id="backHome">← All rooms</button><p class="eyebrow">SHARED SHOPPING ROOM</p><h1 id="activeRoomName">Hostel groceries</h1><p class="intro compact-intro">Everything your group needs, in one place.</p></div><div class="room-code-box"><span>ROOM CODE</span><strong id="activeRoomCode">------</strong><button id="copyRoomCode" class="text-button">Copy code ↗</button></div></div>
+        <div class="room-stats"><div class="stat-card"><span>Items on list</span><strong id="statItems">0</strong><small>Across your group</small></div><div class="stat-card"><span>Estimated total</span><strong id="statTotal">₹0</strong><small>Based on item prices</small></div><div class="stat-card"><span>People here</span><strong id="statPeople">1</strong><small>Sharing this room</small></div></div>
+        <div class="cart-layout">
+          <section class="panel cart-panel"><div class="panel-heading"><div><h2>Shared cart <span class="tiny-count" id="cartItemCount">0</span></h2><p>Add the things your group needs.</p></div><button class="subtle-button" id="clearCartButton">Clear list</button></div>
+            <form class="add-item-form" id="addItemForm"><div class="field-grow"><label for="itemName">Item name</label><input id="itemName" placeholder="What do you need?" maxlength="70" required></div><div class="field-price"><label for="itemPrice">Price (₹)</label><input id="itemPrice" type="number" min="0" max="100000" step="0.01" placeholder="0.00" required></div><div class="field-qty"><label for="itemQty">Qty</label><input id="itemQty" type="number" min="1" max="99" value="1" required></div><button class="add-button" type="submit" aria-label="Add item">+</button></form>
+            <div class="cart-table-head"><span>ITEM</span><span>ADDED BY</span><span>PRICE</span><span></span></div><div id="cartItems" class="cart-items"></div>
+            <div class="cart-total-row"><span>Estimated order total</span><strong id="cartTotal">₹0.00</strong></div>
+            <div class="cart-actions"><button class="secondary-button" id="printReceipt">↗ Print group receipt</button><span>Changes save automatically</span></div>
+          </section>
+          <aside class="panel activity-panel"><div class="panel-heading"><div><h2>Room activity</h2><p>Little updates from your group.</p></div><span class="live-pill"><i></i> Live</span></div><div id="activityList" class="activity-list"></div><div class="activity-note">Activity is shared with this browser's other tabs.</div></aside>
+        </div>
+      </section>
+
+      <section class="view" id="activityView"><div class="section-heading"><div><p class="eyebrow">THE LATEST</p><h1>Room activity</h1><p>See what has changed across your shopping rooms.</p></div></div><div id="allActivityList" class="all-activity-list"></div></section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
