@@ -11,11 +11,12 @@ CartShare is a responsive shared-shopping frontend for roommates, student groups
 - Storage-event updates across tabs/windows using the same browser storage.
 - Responsive layout for mobile, tablet, and desktop.
 - Print-friendly receipt via the browser print dialog.
+- Product showcase with sample grocery and household essentials, displayed prices, and one-click add-to-cart actions.
 
 ## Run locally
 1. Extract the ZIP.
 2. Open `index.html` in a modern browser, or use VS Code Live Server.
-3. Create a room and add a few items to test the cart.
+3. Create a room, add items manually, or use the Popular picks product showcase to add sample products with one click.
 4. To test storage syncing, open the same site origin in another tab. Browser storage events do not synchronize across separate devices or unrelated origins.
 
 ## Folder structure

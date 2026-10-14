@@ -122,6 +122,41 @@
     const list = byId("allActivityList");
     list.innerHTML = activities.length ? activities.map(activityMarkup).join("") : '<div class="empty-state"><div class="empty-emoji">✦</div><strong>Nothing happening yet</strong><p>Your room updates will show up here.</p></div>';
   }
+  const sampleProducts = {
+    milk: { name: "Fresh Milk", price: 64 },
+    bread: { name: "Whole Wheat Bread", price: 45 },
+    eggs: { name: "Eggs (6 pack)", price: 54 },
+    bananas: { name: "Bananas (6 pcs)", price: 40 },
+    rice: { name: "Basmati Rice (1 kg)", price: 120 },
+    dishwash: { name: "Dishwash Liquid", price: 99 }
+  };
+
+  function addSampleProduct(productKey) {
+    const product = sampleProducts[productKey];
+    if (!product) return;
+    let room = activeRoom();
+    if (!room && rooms.length === 1) room = rooms[0];
+    if (!room && rooms.length > 1) {
+      const code = prompt(`Which room should receive ${product.name}? Enter its room code:
+${rooms.map((entry) => `${entry.name} (${entry.code})`).join("\n")}`);
+      if (code === null) return;
+      room = rooms.find((entry) => entry.code === code.trim().toUpperCase());
+      if (!room) { showToast("Room code not found. Open a room or try again."); return; }
+    }
+    if (!room) {
+      showToast("Create a room first, then add products to your cart.");
+      byId("newRoomName").focus();
+      byId("newRoomName").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    room.items.push({ id: makeId(), name: product.name, price: product.price, qty: 1, by: userName, addedAt: Date.now() });
+    saveRooms();
+    addActivity(room, "added", `added <strong>${safeText(product.name)}</strong> to the cart`);
+    renderRooms();
+    if (activeRoom()?.id === room.id) renderRoom();
+    showToast(`${product.name} added to ${room.name}.`);
+  }
+
   function addItem(event) {
     event.preventDefault();
     const room = activeRoom();
@@ -170,6 +205,7 @@
   byId("addItemForm").addEventListener("submit", addItem);
   byId("roomsGrid").addEventListener("click", (event) => { const card = event.target.closest("[data-open-room]"); if (card) openRoom(card.dataset.openRoom); });
   byId("roomsGrid").addEventListener("keydown", (event) => { const card = event.target.closest("[data-open-room]"); if (card && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); openRoom(card.dataset.openRoom); } });
+  byId("productsGrid").addEventListener("click", (event) => { const button = event.target.closest("[data-product]"); if (button) addSampleProduct(button.dataset.product); });
   byId("cartItems").addEventListener("click", (event) => { const button = event.target.closest("[data-remove-item]"); if (button) removeItem(button.dataset.removeItem); });
   byId("backHome").addEventListener("click", () => switchView("home"));
   byId("copyRoomCode").addEventListener("click", async () => { const room = activeRoom(); if (!room) return; try { await navigator.clipboard.writeText(room.code); showToast("Room code copied."); } catch { showToast(`Room code: ${room.code}`); } });
